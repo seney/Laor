@@ -70,10 +70,11 @@ public class MainActivity extends AppCompatActivity
                 counter ++;
             }
         });
-
+//yojdhsjhdf
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //kfdsahfd
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         viewPager.addOnPageChangeListener(this);
-
+//test conflict
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
