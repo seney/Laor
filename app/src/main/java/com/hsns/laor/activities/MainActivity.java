@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //sendNotification();
+                //sdf
                 if(counter == users.size())
                     counter = 0;
                 oneFragment.bindData(users.get(counter));
