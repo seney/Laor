@@ -63,20 +63,18 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //sendNotification();
-                //sdf
-                //sdfa
-                //sdfa
+
                 if(counter == users.size())
                     counter = 0;
                 oneFragment.bindData(users.get(counter));
                 counter ++;
             }
         });
-//yojdhsjhdf
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //kfdsahfd
+
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -86,7 +84,7 @@ public class MainActivity extends AppCompatActivity
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         viewPager.addOnPageChangeListener(this);
-//test conflict
+
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
