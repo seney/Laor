@@ -46,8 +46,8 @@ public class SearchResultsActivity extends AppCompatActivity {
             case android.R.id.home:
                 /*Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.animator.push_right_in, R.animator.push_right_out);
-                finish();*/
+                overridePendingTransition(R.animator.push_right_in, R.animator.push_right_out);*/
+                finish();
                 return true;
         }
 

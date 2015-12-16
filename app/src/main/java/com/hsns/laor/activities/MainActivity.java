@@ -15,7 +15,6 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,7 +28,7 @@ import android.view.View;
 import com.hsns.laor.R;
 import com.hsns.laor.models.User;
 import com.hsns.laor.adapters.MainViewPagerAdapter;
-import com.hsns.laor.fragements.OneFragment;
+import com.hsns.laor.fragements.ForecastFragment;
 import com.hsns.laor.fragements.ThreeFragment;
 import com.hsns.laor.fragements.TwoFragment;
 
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity
             R.drawable.ic_favorite_black_24px
     };
     private Context context;
-    private OneFragment oneFragment;
+    private ForecastFragment forecastFragment;
     private ArrayList<User> users = new ArrayList<>();
     private int counter = 0;
 
@@ -182,8 +181,8 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
-        oneFragment = new OneFragment();
-        adapter.addFragment(oneFragment, "ONE");
+        forecastFragment = new ForecastFragment();
+        adapter.addFragment(forecastFragment, "ONE");
         adapter.addFragment(new TwoFragment(), "TWO");
         adapter.addFragment(new ThreeFragment(), "THREE");
 //        adapter.addFragment(new FourFragment(), "FOUR");
