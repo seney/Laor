@@ -2,6 +2,7 @@ package com.hsns.laor.activities;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -14,10 +15,12 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,11 +66,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //sendNotification();
-
-                if(counter == users.size())
-                    counter = 0;
-                oneFragment.bindData(users.get(counter));
-                counter ++;
+                Intent in = new Intent(getApplicationContext(), SearchResultsActivity.class);
+                startActivity(in);
+                overridePendingTransition(R.animator.push_left_in, R.animator.push_left_out);
             }
         });
 
@@ -106,6 +107,34 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        // Associate searchable configuration with the SearchView
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+       /* MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent in = new Intent(getApplicationContext(), SearchResultsActivity.class);
+                in.putExtra("query", query);
+                startActivity(in);
+                overridePendingTransition(R.animator.push_left_in, R.animator.push_left_out);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });*/
+
         return true;
     }
 
@@ -118,6 +147,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.action_search) {
             return true;
         }
 
