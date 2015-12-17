@@ -9,4 +9,5 @@
     <string name="search_title">Search Item</string>
     <string name="search_hint">Search Item</string>
     <string name="refresh">Refresh</string>
+    <string name="title_activity_forecast_detail">ForecastDetailActivity</string>
 </resources>
