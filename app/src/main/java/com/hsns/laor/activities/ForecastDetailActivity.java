@@ -51,7 +51,10 @@ public class ForecastDetailActivity extends AppCompatActivity {
 
         switch (id){
             case R.id.action_settings:
-
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                break;
+            case android.R.id.home:
+                finish();
                 break;
             default:
                 break;

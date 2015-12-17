@@ -1,9 +1,11 @@
 package com.hsns.laor.fragements;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
@@ -32,7 +34,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,10 +41,24 @@ import java.util.List;
  */
 public class ForecastFragment extends Fragment {
 
+    private static ForecastFragment mInstance = null;
     private ArrayAdapter<String> mArrayAdapter;
 
     public ForecastFragment() {
         // Required empty public constructor
+    }
+
+    public static ForecastFragment getInstance() {
+        if (mInstance == null) {
+            mInstance = new ForecastFragment();
+        }
+        return mInstance;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
     }
 
     @Override
@@ -57,16 +72,8 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_forecast, container, false);
-        String[] forecastItems = {
-                "Today - Sunny - 88/63",
-                "Tomorrow - Foggy - 88/63",
-                "Weds - Cloudy - 88/63",
-                "Thurs - Asteroids - 88/63",
-                "Fri - Heavy Rain - 88/63",
-                "Sat - HELP TAPPED IN WEATHER STATION - 88/63",
-                "Sun - Sunny - 88/63",
-        };
-        List<String> weekForecast = new ArrayList<>(Arrays.asList(forecastItems));
+
+        List<String> weekForecast = new ArrayList<>();
 
         mArrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, weekForecast);
         ListView listViewForecast = (ListView) rootView.findViewById(R.id.listview_forecast);
@@ -82,10 +89,25 @@ public class ForecastFragment extends Fragment {
             }
         });
 
-        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-        fetchWeatherTask.execute("94043");
+        updateWeather();
 
         return rootView;
+    }
+
+    private void updateWeather() {
+        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String latitude = mPrefs.getString(getString(R.string.pref_latitude_key),
+                getString(R.string.pref_latitude_default));
+        String longitude = mPrefs.getString(getString(R.string.pref_longitude_key),
+                getString(R.string.pref_longitude_default));
+
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        fetchWeatherTask.execute(latitude, longitude);
+    }
+
+    public void updateWeather(String lat, String lon) {
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        fetchWeatherTask.execute(lat, lon);
     }
 
     @Override
@@ -97,8 +119,7 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            fetchWeatherTask.execute("94043");
+            updateWeather();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -113,6 +134,17 @@ public class ForecastFragment extends Fragment {
         }
 
         private String formatHighLows(double high, double low) {
+
+
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String unitType = sharedPrefs.getString(getString(R.string.pref_units_key), getString(R.string.pref_units_metric));
+            if (unitType.equals(getString(R.string.pref_units_imperial))) {
+                high = (high * 1.8) + 32;
+                low = (low * 1.8) + 32;
+            } else {
+
+            }
+
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
 
@@ -219,15 +251,22 @@ public class ForecastFragment extends Fragment {
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
                 //URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7&appid=2de143494c0b295cca9337e1e96b00e0");
+                //URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?lat=11.5500&lon=104.9167&mode=json&units=metric&cnt=7&appid=2de143494c0b295cca9337e1e96b00e0");
+
+
+
                 final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
                 final String QUERY_PARAM = "q";
+                final String LATITUDE_PARAM = "lat";
+                final String LONGITUDE_PARAM = "lon";
                 final String FORMAT_PARAM = "mode";
                 final String UNITS_PARAM = "units";
                 final String DAYS_PARAM = "cnt";
                 final String APP_ID = "appid";
 
                 Uri buildURI = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                        .appendQueryParameter(QUERY_PARAM, params[0])
+                        .appendQueryParameter(LATITUDE_PARAM, params[0])
+                        .appendQueryParameter(LONGITUDE_PARAM, params[1])
                         .appendQueryParameter(FORMAT_PARAM, format)
                         .appendQueryParameter(UNITS_PARAM, units)
                         .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))

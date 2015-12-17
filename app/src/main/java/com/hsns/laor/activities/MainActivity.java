@@ -30,7 +30,7 @@ import com.hsns.laor.models.User;
 import com.hsns.laor.adapters.MainViewPagerAdapter;
 import com.hsns.laor.fragements.ForecastFragment;
 import com.hsns.laor.fragements.ThreeFragment;
-import com.hsns.laor.fragements.TwoFragment;
+import com.hsns.laor.fragements.MapFragment;
 
 import java.util.ArrayList;
 
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private int[] tabIcons = {
-            R.drawable.ic_home_white_24px,
-            R.drawable.ic_stars_black_24px,
+            R.drawable.ic_cloud_white_24px,
+            R.drawable.ic_location_black_24px,
             R.drawable.ic_favorite_black_24px
     };
     private Context context;
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //sendNotification();
-                Intent in = new Intent(getApplicationContext(), SearchResultsActivity.class);
+                Intent in = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(in);
                 overridePendingTransition(R.animator.push_left_in, R.animator.push_left_out);
             }
@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
             return true;
         } else if (id == R.id.action_search) {
             return true;
@@ -183,7 +184,7 @@ public class MainActivity extends AppCompatActivity
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
         forecastFragment = new ForecastFragment();
         adapter.addFragment(forecastFragment, "ONE");
-        adapter.addFragment(new TwoFragment(), "TWO");
+        adapter.addFragment(new MapFragment(), "TWO");
         adapter.addFragment(new ThreeFragment(), "THREE");
 //        adapter.addFragment(new FourFragment(), "FOUR");
 //        adapter.addFragment(new FiveFragment(), "FIVE");
@@ -200,18 +201,18 @@ public class MainActivity extends AppCompatActivity
     private void switchTabIcon(int position) {
         switch (position) {
             case 0:
-                tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_white_24px);
-                tabLayout.getTabAt(1).setIcon(R.drawable.ic_stars_black_24px);
+                tabLayout.getTabAt(0).setIcon(R.drawable.ic_cloud_white_24px);
+                tabLayout.getTabAt(1).setIcon(R.drawable.ic_location_black_24px);
                 tabLayout.getTabAt(2).setIcon(R.drawable.ic_favorite_black_24px);
                 break;
             case 1:
-                tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_black_24px);
-                tabLayout.getTabAt(1).setIcon(R.drawable.ic_stars_white_24px);
+                tabLayout.getTabAt(0).setIcon(R.drawable.ic_cloud_black_24px);
+                tabLayout.getTabAt(1).setIcon(R.drawable.ic_location_white_24px);
                 tabLayout.getTabAt(2).setIcon(R.drawable.ic_favorite_black_24px);
                 break;
             case 2:
-                tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_black_24px);
-                tabLayout.getTabAt(1).setIcon(R.drawable.ic_stars_black_24px);
+                tabLayout.getTabAt(0).setIcon(R.drawable.ic_cloud_black_24px);
+                tabLayout.getTabAt(1).setIcon(R.drawable.ic_location_black_24px);
                 tabLayout.getTabAt(2).setIcon(R.drawable.ic_favorite_white_24px);
                 break;
         }
