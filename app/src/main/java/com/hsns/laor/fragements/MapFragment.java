@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -104,24 +103,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 @SuppressWarnings("unchecked")
                 @Override
-                public void onMarkerDragEnd(Marker arg0) {
+                public void onMarkerDragEnd(Marker marker) {
                     // TODO Auto-generated method stub
-                    Log.d("System out", "onMarkerDragEnd..." + arg0.getPosition().latitude + "..." + arg0.getPosition().longitude);
+                    Log.d("System out", "onMarkerDragEnd..." + marker.getPosition().latitude + "..." + marker.getPosition().longitude);
 
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
 
-                    mMap.animateCamera(CameraUpdateFactory.newLatLng(arg0.getPosition()));
-
-                    Toast.makeText(
-                            getContext(),
-                            "Lat " + mMap.getMyLocation().getLatitude() + " "
-                                    + "Long " + mMap.getMyLocation().getLongitude(),
-                            Toast.LENGTH_LONG).show();
+                    LatLng position = marker.getPosition();
 
 //                    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
                     SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = mPrefs.edit();
-                    editor.putString(getString(R.string.pref_latitude_key), mMap.getMyLocation().getLatitude() + "");
-                    editor.putString(getString(R.string.pref_longitude_key), mMap.getMyLocation().getLongitude() + "");
+                    editor.putString(getString(R.string.pref_latitude_key), position.latitude + "");
+                    editor.putString(getString(R.string.pref_longitude_key), position.longitude + "");
                     editor.commit();
                 }
 
