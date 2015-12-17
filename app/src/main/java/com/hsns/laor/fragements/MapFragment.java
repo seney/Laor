@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -96,9 +97,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
                 @Override
-                public void onMarkerDragStart(Marker arg0) {
+                public void onMarkerDragStart(Marker marker) {
                     // TODO Auto-generated method stub
-                    Log.d("System out", "onMarkerDragStart..." + arg0.getPosition().latitude + "..." + arg0.getPosition().longitude);
+                    Log.d("System out", "onMarkerDragStart..." + marker.getPosition().latitude + "..." + marker.getPosition().longitude);
                 }
 
                 @SuppressWarnings("unchecked")
@@ -111,7 +112,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                     LatLng position = marker.getPosition();
 
-//                    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
                     SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = mPrefs.edit();
                     editor.putString(getString(R.string.pref_latitude_key), position.latitude + "");
@@ -120,7 +120,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 }
 
                 @Override
-                public void onMarkerDrag(Marker arg0) {
+                public void onMarkerDrag(Marker marker) {
                     // TODO Auto-generated method stub
                     Log.i("System out", "onMarkerDrag...");
                 }
@@ -133,6 +133,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //sendNotification();
+                SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String latitude = mPrefs.getString(getString(R.string.pref_latitude_key),
+                        getString(R.string.pref_latitude_default));
+                String longitude = mPrefs.getString(getString(R.string.pref_longitude_key),
+                        getString(R.string.pref_longitude_default));
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))));
+            }
+        });
     }
 
     @Override

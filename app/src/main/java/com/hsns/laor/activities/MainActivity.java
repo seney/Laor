@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
@@ -26,11 +25,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.hsns.laor.R;
-import com.hsns.laor.models.User;
 import com.hsns.laor.adapters.MainViewPagerAdapter;
 import com.hsns.laor.fragements.ForecastFragment;
-import com.hsns.laor.fragements.ThreeFragment;
 import com.hsns.laor.fragements.MapFragment;
+import com.hsns.laor.fragements.ThreeFragment;
+import com.hsns.laor.models.User;
 
 import java.util.ArrayList;
 
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         context = getApplicationContext();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(in);
                 overridePendingTransition(R.animator.push_left_in, R.animator.push_left_out);
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -219,6 +218,14 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void switchFadButtonVisibility(int position) {
+        if (position == 1) {
+            findViewById(R.id.fab).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.fab).setVisibility(View.GONE);
+        }
+    }
+
     private void setUpUsers() {
         users.add(new User("Data", "Kiki"));
         users.add(new User("Kaka", "Kiki"));
@@ -240,6 +247,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPageSelected(int position) {
         switchTabIcon(position);
+        switchFadButtonVisibility(position);
     }
 
     @Override
@@ -260,7 +268,7 @@ public class MainActivity extends AppCompatActivity
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
         //icon appears in device notification bar and right hand corner of notification
-        builder.setSmallIcon(R.drawable.ic_stars_white_24px );
+        builder.setSmallIcon(R.drawable.ic_stars_white_24px);
 
         // This intent is fired when notification is clicked
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://javatechig.com/"));
