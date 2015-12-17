@@ -103,11 +103,7 @@ public class ForecastFragment extends Fragment {
 
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
         fetchWeatherTask.execute(latitude, longitude);
-    }
-
-    public void updateWeather(String lat, String lon) {
-        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-        fetchWeatherTask.execute(lat, lon);
+        
     }
 
     @Override

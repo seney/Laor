@@ -2,16 +2,20 @@ package com.hsns.laor.fragements;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,6 +23,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.hsns.laor.R;
 
@@ -52,7 +57,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 super.onActivityCreated(savedInstanceState);
                 mMap = mMapFragment.getMap();
                 if (mMap != null) {
-                    setupMap();
+                    mMapFragment.getMapAsync(MapFragment.this);
                 }
             }
         };
@@ -62,20 +67,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void setupMap() {
-        mMapFragment.getMapAsync(this);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
 
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker").snippet("Snippet"));
         mMap.setMyLocationEnabled(true);
+
+
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
@@ -97,7 +94,56 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             builder.target(target);
 
             this.mMap.animateCamera(CameraUpdateFactory.newCameraPosition(builder.build()));
-            mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("You are here!").snippet("Consider yourself located"));
+
+            mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                @Override
+                public void onMarkerDragStart(Marker arg0) {
+                    // TODO Auto-generated method stub
+                    Log.d("System out", "onMarkerDragStart..." + arg0.getPosition().latitude + "..." + arg0.getPosition().longitude);
+                }
+
+                @SuppressWarnings("unchecked")
+                @Override
+                public void onMarkerDragEnd(Marker arg0) {
+                    // TODO Auto-generated method stub
+                    Log.d("System out", "onMarkerDragEnd..." + arg0.getPosition().latitude + "..." + arg0.getPosition().longitude);
+
+
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(arg0.getPosition()));
+
+                    Toast.makeText(
+                            getContext(),
+                            "Lat " + mMap.getMyLocation().getLatitude() + " "
+                                    + "Long " + mMap.getMyLocation().getLongitude(),
+                            Toast.LENGTH_LONG).show();
+
+//                    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                    SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences.Editor editor = mPrefs.edit();
+                    editor.putString(getString(R.string.pref_latitude_key), mMap.getMyLocation().getLatitude() + "");
+                    editor.putString(getString(R.string.pref_longitude_key), mMap.getMyLocation().getLongitude() + "");
+                    editor.commit();
+                }
+
+                @Override
+                public void onMarkerDrag(Marker arg0) {
+                    // TODO Auto-generated method stub
+                    Log.i("System out", "onMarkerDrag...");
+                }
+            });
+
+            mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("You are here!").snippet("Consider yourself located").draggable(true));
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        setupMap();
     }
 }
