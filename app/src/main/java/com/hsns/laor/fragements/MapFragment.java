@@ -85,7 +85,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
         Location location = locationManager.getLastKnownLocation(provider);
-//        if(location == null)
 
         if (location != null) {
 
@@ -100,10 +99,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             this.mMap.animateCamera(CameraUpdateFactory.newCameraPosition(builder.build()));
             mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("You are here!").snippet("Consider yourself located"));
         }
-
-        // Add a marker in Phnom Penh and move the camera
-       /* LatLng sydney = new LatLng(11.5500, 104.9167);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Phnom Penh"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
     }
 }
