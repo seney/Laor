@@ -94,7 +94,7 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
-    private void updateWeather() {
+    public void updateWeather() {
         SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String latitude = mPrefs.getString(getString(R.string.pref_latitude_key),
                 getString(R.string.pref_latitude_default));
@@ -130,15 +130,11 @@ public class ForecastFragment extends Fragment {
         }
 
         private String formatHighLows(double high, double low) {
-
-
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
             String unitType = sharedPrefs.getString(getString(R.string.pref_units_key), getString(R.string.pref_units_metric));
             if (unitType.equals(getString(R.string.pref_units_imperial))) {
                 high = (high * 1.8) + 32;
                 low = (low * 1.8) + 32;
-            } else {
-
             }
 
             long roundedHigh = Math.round(high);
@@ -218,9 +214,9 @@ public class ForecastFragment extends Fragment {
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
             }
 
-            for (String s : resultStrs) {
-                Log.v(LOG_TAG, "Forecast entry: " + s);
-            }
+//            for (String s : resultStrs) {
+//                Log.v(LOG_TAG, "Forecast entry: " + s);
+//            }
             return resultStrs;
 
         }
@@ -248,8 +244,6 @@ public class ForecastFragment extends Fragment {
                 // http://openweathermap.org/API#forecast
                 //URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7&appid=2de143494c0b295cca9337e1e96b00e0");
                 //URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?lat=11.5500&lon=104.9167&mode=json&units=metric&cnt=7&appid=2de143494c0b295cca9337e1e96b00e0");
-
-
 
                 final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
                 final String QUERY_PARAM = "q";

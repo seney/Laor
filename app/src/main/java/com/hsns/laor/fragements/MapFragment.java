@@ -66,12 +66,40 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initFadButton();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        setupMap();
+    }
+
+    private void initFadButton() {
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //sendNotification();
+                SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String latitude = mPrefs.getString(getString(R.string.pref_latitude_key),
+                        getString(R.string.pref_latitude_default));
+                String longitude = mPrefs.getString(getString(R.string.pref_longitude_key),
+                        getString(R.string.pref_longitude_default));
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))).title("You are here!").snippet("Hold and drag to change location.").draggable(true));
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))));
+            }
+        });
+    }
+
     private void setupMap() {
         mMap.setMyLocationEnabled(true);
-
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker").snippet("Snippet"));
         mMap.setMyLocationEnabled(true);
-
 
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -100,6 +128,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 public void onMarkerDragStart(Marker marker) {
                     // TODO Auto-generated method stub
                     Log.d("System out", "onMarkerDragStart..." + marker.getPosition().latitude + "..." + marker.getPosition().longitude);
+
                 }
 
                 @SuppressWarnings("unchecked")
@@ -126,32 +155,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 }
             });
 
-            mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("You are here!").snippet("Consider yourself located").draggable(true));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("You are here!").snippet("Hold and drag to change location.").draggable(true));
         }
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //sendNotification();
-                SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                String latitude = mPrefs.getString(getString(R.string.pref_latitude_key),
-                        getString(R.string.pref_latitude_default));
-                String longitude = mPrefs.getString(getString(R.string.pref_longitude_key),
-                        getString(R.string.pref_longitude_default));
-
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))));
-            }
-        });
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        setupMap();
     }
 }

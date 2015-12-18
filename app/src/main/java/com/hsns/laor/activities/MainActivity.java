@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
             R.drawable.ic_favorite_black_24px
     };
     private Context context;
-    private ForecastFragment forecastFragment;
+    private ForecastFragment mForecastFragment;
     private ArrayList<User> users = new ArrayList<>();
     private int counter = 0;
 
@@ -58,17 +58,6 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         context = getApplicationContext();
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //sendNotification();
-                Intent in = new Intent(getApplicationContext(), MapsActivity.class);
-                startActivity(in);
-                overridePendingTransition(R.animator.push_left_in, R.animator.push_left_out);
-            }
-        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -181,8 +170,8 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
-        forecastFragment = new ForecastFragment();
-        adapter.addFragment(forecastFragment, "ONE");
+        mForecastFragment = new ForecastFragment();
+        adapter.addFragment(mForecastFragment, "ONE");
         adapter.addFragment(new MapFragment(), "TWO");
         adapter.addFragment(new ThreeFragment(), "THREE");
 //        adapter.addFragment(new FourFragment(), "FOUR");
@@ -248,6 +237,8 @@ public class MainActivity extends AppCompatActivity
     public void onPageSelected(int position) {
         switchTabIcon(position);
         switchFadButtonVisibility(position);
+        if(position == 0)
+            mForecastFragment.updateWeather();
     }
 
     @Override
