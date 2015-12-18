@@ -2,6 +2,8 @@ package com.hsns.laor.fragements;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hsns.laor.R;
 import com.hsns.laor.activities.ForecastDetailActivity;
@@ -43,6 +46,7 @@ public class ForecastFragment extends Fragment {
 
     private static ForecastFragment mInstance = null;
     private ArrayAdapter<String> mArrayAdapter;
+    private TextView mTextAddress;
 
     public ForecastFragment() {
         // Required empty public constructor
@@ -81,13 +85,22 @@ public class ForecastFragment extends Fragment {
         listViewForecast.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String forecast = mArrayAdapter.getItem(position);
+                if(position != 0) {
+                    String forecast = mArrayAdapter.getItem(position - 1);
 
-                Intent intent = new Intent(getContext(), ForecastDetailActivity.class)
-                        .putExtra(Intent.EXTRA_TEXT, forecast);
-                startActivity(intent);
+                    Intent intent = new Intent(getContext(), ForecastDetailActivity.class)
+                            .putExtra(Intent.EXTRA_TEXT, forecast);
+                    startActivity(intent);
+                }
             }
         });
+
+        mTextAddress = new TextView(getContext());
+        mTextAddress.setPadding(10,20, 10, 20);
+        mTextAddress.setTextSize(25);
+        mTextAddress.setTypeface(null, Typeface.BOLD);
+        mTextAddress.setTextColor(Color.DKGRAY);
+        listViewForecast.addHeaderView(mTextAddress);
 
         updateWeather();
 
@@ -100,7 +113,8 @@ public class ForecastFragment extends Fragment {
                 getString(R.string.pref_latitude_default));
         String longitude = mPrefs.getString(getString(R.string.pref_longitude_key),
                 getString(R.string.pref_longitude_default));
-
+        String address = mPrefs.getString(getString(R.string.pref_address_key), getString(R.string.pref_address_default));
+        mTextAddress.setText(address);
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
         fetchWeatherTask.execute(latitude, longitude);
         

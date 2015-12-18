@@ -20,6 +20,10 @@
     <string name="pref_longitude_key" translatable="false">longitude</string>
     <string name="pref_longitude_default" translatable="false">104.9167</string>
 
+    <string name="pref_address_label">Address</string>
+    <string name="pref_address_key" translatable="false">address</string>
+    <string name="pref_address_default" translatable="false">Phnom Penh, Cambodia</string>
+
     <string name="pref_units_label">Temperature Units</string>
     <string name="pref_units_label_metric">Metric</string>
     <string name="pref_units_label_imperial">Imperial</string>
