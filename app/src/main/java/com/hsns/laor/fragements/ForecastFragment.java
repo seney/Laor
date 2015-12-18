@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hsns.laor.R;
@@ -47,6 +48,7 @@ public class ForecastFragment extends Fragment {
     private static ForecastFragment mInstance = null;
     private ArrayAdapter<String> mArrayAdapter;
     private TextView mTextAddress;
+    private ProgressBar mProgressBar;
 
     public ForecastFragment() {
         // Required empty public constructor
@@ -76,7 +78,7 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_forecast, container, false);
-
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         List<String> weekForecast = new ArrayList<>();
 
         mArrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, weekForecast);
@@ -85,7 +87,7 @@ public class ForecastFragment extends Fragment {
         listViewForecast.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position != 0) {
+                if (position != 0) {
                     String forecast = mArrayAdapter.getItem(position - 1);
 
                     Intent intent = new Intent(getContext(), ForecastDetailActivity.class)
@@ -96,7 +98,7 @@ public class ForecastFragment extends Fragment {
         });
 
         mTextAddress = new TextView(getContext());
-        mTextAddress.setPadding(10,20, 10, 20);
+        mTextAddress.setPadding(10, 20, 10, 20);
         mTextAddress.setTextSize(25);
         mTextAddress.setTypeface(null, Typeface.BOLD);
         mTextAddress.setTextColor(Color.DKGRAY);
@@ -107,7 +109,13 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
     public void updateWeather() {
+        mProgressBar.setVisibility(View.VISIBLE);
         SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String latitude = mPrefs.getString(getString(R.string.pref_latitude_key),
                 getString(R.string.pref_latitude_default));
@@ -345,6 +353,7 @@ public class ForecastFragment extends Fragment {
                         result) {
                     mArrayAdapter.add(dayForecastStr);
                 }
+                mProgressBar.setVisibility(View.GONE);
             }
         }
     }

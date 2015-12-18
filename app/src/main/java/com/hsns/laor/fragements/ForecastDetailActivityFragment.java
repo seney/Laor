@@ -14,6 +14,7 @@ import com.hsns.laor.R;
 public class ForecastDetailActivityFragment extends Fragment {
 
     public ForecastDetailActivityFragment() {
+        setHasOptionsMenu(true);
     }
 
     @Override

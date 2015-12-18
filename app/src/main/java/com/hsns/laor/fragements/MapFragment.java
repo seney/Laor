@@ -62,17 +62,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void initMapFragment() {
-        mMapFragment = new SupportMapFragment() {
-            @Override
-            public void onActivityCreated(Bundle savedInstanceState) {
-                super.onActivityCreated(savedInstanceState);
-                mMap = mMapFragment.getMap();
-                if (mMap != null) {
-                    mMapFragment.getMapAsync(MapFragment.this);
+        if (mMapFragment == null) {
+            mMapFragment = new SupportMapFragment() {
+                @Override
+                public void onActivityCreated(Bundle savedInstanceState) {
+                    super.onActivityCreated(savedInstanceState);
+                    mMap = mMapFragment.getMap();
+                    if (mMap != null) {
+                        mMapFragment.getMapAsync(MapFragment.this);
+                    }
                 }
-            }
-        };
-        getChildFragmentManager().beginTransaction().add(R.id.map, mMapFragment).commit();
+            };
+            getChildFragmentManager().beginTransaction().add(R.id.map, mMapFragment).commit();
+        }
     }
 
     @Override
@@ -102,6 +104,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         initMap();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private void initFadButton() {

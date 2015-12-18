@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     };
     private Context context;
     private ForecastFragment mForecastFragment;
+    private MapFragment mMapFragment;
     private ArrayList<User> users = new ArrayList<>();
     private int counter = 0;
 
@@ -77,7 +78,6 @@ public class MainActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
 
         setupTabIcons();
-        setUpUsers();
     }
 
     @Override
@@ -170,20 +170,19 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
-        mForecastFragment = new ForecastFragment();
-        adapter.addFragment(mForecastFragment, "ONE");
-        adapter.addFragment(new MapFragment(), "TWO");
-        adapter.addFragment(new ThreeFragment(), "THREE");
-//        adapter.addFragment(new FourFragment(), "FOUR");
-//        adapter.addFragment(new FiveFragment(), "FIVE");
-//        adapter.addFragment(new SixFragment(), "SIX");
+        if (mForecastFragment == null)
+            mForecastFragment = new ForecastFragment();
+        if (mMapFragment == null)
+            mMapFragment = new MapFragment();
+
+        adapter.addFragment(mForecastFragment, "Forecast");
+        adapter.addFragment(mMapFragment, "Map");
         viewPager.setAdapter(adapter);
     }
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
     private void switchTabIcon(int position) {
@@ -191,17 +190,10 @@ public class MainActivity extends AppCompatActivity
             case 0:
                 tabLayout.getTabAt(0).setIcon(R.drawable.ic_cloud_white_24px);
                 tabLayout.getTabAt(1).setIcon(R.drawable.ic_location_black_24px);
-                tabLayout.getTabAt(2).setIcon(R.drawable.ic_favorite_black_24px);
                 break;
             case 1:
                 tabLayout.getTabAt(0).setIcon(R.drawable.ic_cloud_black_24px);
                 tabLayout.getTabAt(1).setIcon(R.drawable.ic_location_white_24px);
-                tabLayout.getTabAt(2).setIcon(R.drawable.ic_favorite_black_24px);
-                break;
-            case 2:
-                tabLayout.getTabAt(0).setIcon(R.drawable.ic_cloud_black_24px);
-                tabLayout.getTabAt(1).setIcon(R.drawable.ic_location_black_24px);
-                tabLayout.getTabAt(2).setIcon(R.drawable.ic_favorite_white_24px);
                 break;
         }
 
@@ -215,19 +207,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void setUpUsers() {
-        users.add(new User("Data", "Kiki"));
-        users.add(new User("Kaka", "Kiki"));
-        users.add(new User("KoKo", "Kiki"));
-        users.add(new User("KeKe", "Kiki"));
-    }
-
-    private
-    @CheckResult
-    String toTrim(String s) {
-        return s.trim();
-    }
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -237,7 +216,7 @@ public class MainActivity extends AppCompatActivity
     public void onPageSelected(int position) {
         switchTabIcon(position);
         switchFadButtonVisibility(position);
-        if(position == 0)
+        if (position == 0)
             mForecastFragment.updateWeather();
     }
 
@@ -246,47 +225,8 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public String trim(@NonNull String s) {
-        return s.trim();
-    }
-
-    /**
-     * Send simple notification using the NotificationCompat API.
-     */
-    public void sendNotification() {
-
-        // Use NotificationCompat.Builder to set up our notification.
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-
-        //icon appears in device notification bar and right hand corner of notification
-        builder.setSmallIcon(R.drawable.ic_stars_white_24px);
-
-        // This intent is fired when notification is clicked
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://javatechig.com/"));
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-        // Set the intent that will fire when the user taps the notification.
-        //builder.setContentIntent(pendingIntent);
-        builder.addAction(new NotificationCompat.Action(R.drawable.ic_favorite_black_24px, "Like", pendingIntent));
-
-        // Large icon appears on the left of the notification
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
-
-        // Content title, which appears in large type at the top of the notification
-        builder.setContentTitle("Notifications Title");
-
-        // Content text, which appears in smaller text below the title
-        builder.setContentText("Your notification content here.");
-
-        // The subtext, which appears under the text on newer devices.
-        // This will show-up in the devices with Android 4.2 and above only
-        //builder.setSubText("Tap to view documentation about notifications.");
-
-        builder.setStyle(new NotificationCompat.BigTextStyle().bigText("Tap to view documentation about notifications. Tap to view documentation about notifications."));
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        // Will display the notification in the notification bar
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }
