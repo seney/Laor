@@ -4,7 +4,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by otdom on 12/21/15.
+ * Created by seney on 12/21/15.
  */
 public class Location extends RealmObject {
 
