@@ -1,4 +1,4 @@
-package com.hsns.laor.fragements;
+package com.hsns.laor.ui.fragements;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hsns.laor.R;
-import com.hsns.laor.activities.ForecastDetailActivity;
+import com.hsns.laor.ui.activities.ForecastDetailActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

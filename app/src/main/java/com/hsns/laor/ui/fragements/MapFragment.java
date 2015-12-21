@@ -1,4 +1,4 @@
-package com.hsns.laor.fragements;
+package com.hsns.laor.ui.fragements;
 
 import android.Manifest;
 import android.content.Context;

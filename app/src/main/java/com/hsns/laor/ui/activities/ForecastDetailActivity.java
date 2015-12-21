@@ -1,4 +1,4 @@
-package com.hsns.laor.activities;
+package com.hsns.laor.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -33,7 +33,7 @@
                 android:value=".activities.SearchResultsActivity" />
         </activity>
         <activity
-            android:name=".activities.SearchResultsActivity"
+            android:name=".ui.activities.SearchResultsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -49,24 +49,24 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".activities.ForecastDetailActivity"
+            android:name=".ui.activities.ForecastDetailActivity"
             android:label="@string/title_activity_forecast_detail"
-            android:parentActivityName=".activities.MainActivity"
+            android:parentActivityName=".ui.activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hsns.laor.activities.MainActivity" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".ui.activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".activities.ForecastDetailActivity"
+            android:parentActivityName=".ui.activities.ForecastDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Widget.AppCompat.ActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hsns.laor.activities.ForecastDetailActivity" />
+                android:value=".ui.activities.ForecastDetailActivity" />
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -81,12 +81,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.MapsActivity"
+            android:name=".ui.activities.MapsActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hsns.laor.activities.MainActivity" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
     </application>
 

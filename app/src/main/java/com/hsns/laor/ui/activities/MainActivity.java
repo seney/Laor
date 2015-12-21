@@ -1,18 +1,11 @@
-package com.hsns.laor.activities;
+package com.hsns.laor.ui.activities;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -25,10 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.hsns.laor.R;
-import com.hsns.laor.adapters.MainViewPagerAdapter;
-import com.hsns.laor.fragements.ForecastFragment;
-import com.hsns.laor.fragements.MapFragment;
-import com.hsns.laor.fragements.ThreeFragment;
+import com.hsns.laor.ui.adapters.MainViewPagerAdapter;
+import com.hsns.laor.ui.fragements.ForecastFragment;
+import com.hsns.laor.ui.fragements.MapFragment;
 import com.hsns.laor.models.User;
 
 import java.util.ArrayList;

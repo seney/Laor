@@ -1,4 +1,4 @@
-package com.hsns.laor.adapters;
+package com.hsns.laor.ui.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

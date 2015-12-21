@@ -1,4 +1,4 @@
-package com.hsns.laor.activities;
+package com.hsns.laor.ui.activities;
 
 import android.app.SearchManager;
 import android.content.Intent;

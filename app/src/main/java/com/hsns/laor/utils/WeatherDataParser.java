@@ -1,4 +1,4 @@
-package com.hsns.laor.tools;
+package com.hsns.laor.utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;

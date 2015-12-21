@@ -1,4 +1,4 @@
-package com.hsns.laor.activities;
+package com.hsns.laor.ui.activities;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
