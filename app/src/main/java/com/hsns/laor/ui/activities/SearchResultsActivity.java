@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.hsns.laor.R;
 import com.hsns.laor.databinding.ActivitySearchResultsBinding;
-import com.hsns.laor.models.User;
+import com.hsns.laor.models.SearchResult;
 
 public class SearchResultsActivity extends AppCompatActivity {
 
@@ -67,11 +67,11 @@ public class SearchResultsActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             //use the query to search your data somehow
-            binding.setUser(new User(query, "dfa"));
+            binding.setSearchResult(new SearchResult(query));
             //Toast.makeText(getApplicationContext(), query , Toast.LENGTH_SHORT).show();
         } else if(intent.getExtras() != null) {
             String query = intent.getStringExtra("query");
-            binding.setUser(new User(query, "dfa"));
+            binding.setSearchResult(new SearchResult(query));
         }
     }
 }

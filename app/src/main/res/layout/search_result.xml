@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="user"
-            type="com.hsns.laor.models.User" />
+            name="searchResult"
+            type="com.hsns.laor.models.SearchResult" />
     </data>
 
     <LinearLayout
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@{user.firstName}"
+            android:text="@{searchResult.searchKey}"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="50dp"
             android:textStyle="bold" />

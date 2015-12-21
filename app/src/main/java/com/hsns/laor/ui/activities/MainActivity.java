@@ -21,7 +21,6 @@ import com.hsns.laor.R;
 import com.hsns.laor.ui.adapters.MainViewPagerAdapter;
 import com.hsns.laor.ui.fragements.ForecastFragment;
 import com.hsns.laor.ui.fragements.MapFragment;
-import com.hsns.laor.models.User;
 
 import java.util.ArrayList;
 
@@ -41,8 +40,6 @@ public class MainActivity extends AppCompatActivity
     private Context context;
     private ForecastFragment mForecastFragment;
     private MapFragment mMapFragment;
-    private ArrayList<User> users = new ArrayList<>();
-    private int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

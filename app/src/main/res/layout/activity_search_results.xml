@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="user"
-            type="com.hsns.laor.models.User" />
+            name="searchResult"
+            type="com.hsns.laor.models.SearchResult" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -30,7 +30,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/search_result" app:user="@{user}"/>
+        <include layout="@layout/search_result" app:searchResult="@{searchResult}"/>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>
